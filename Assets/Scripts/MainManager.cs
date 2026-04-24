@@ -27,6 +27,7 @@ public class MainManager : MonoBehaviour
     [System.Serializable]
     class SaveData
     {
+        string version; 
         public Color TeamColor;
     }
 
@@ -59,12 +60,15 @@ public class MainManager : MonoBehaviour
         string fileName = "saveData.json";
         string fullPath = Path.Combine(p, fileName);
 
+        if (File.Exists(fullPath))
+        {
+            string j = File.ReadAllText(fullPath);
+            Debug.Log(j);
+            SaveData data = JsonUtility.FromJson<SaveData>(j);
+            TeamColor = data.TeamColor;
+        }
 
         //string j = PlayerPrefs.GetString("saveData");
-        string j = File.ReadAllText(fullPath);
-        Debug.Log(j);
-        SaveData data = JsonUtility.FromJson<SaveData>(j);
-        TeamColor = data.TeamColor;
 
         //TeamColor.a = PlayerPrefs.GetFloat("teamColor.a", 1f); //float val is default val
         //TeamColor.r = PlayerPrefs.GetFloat("teamColor.r", 1f);
